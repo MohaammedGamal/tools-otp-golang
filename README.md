@@ -1,2 +1,2 @@
 # tool-switch-logs-golang
- A tool to read switch logs
+ A tool to retrieve OTP from the database

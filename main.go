@@ -276,10 +276,10 @@ func fetchResultsHandler(w http.ResponseWriter, r *http.Request) {
 	var query string
 	var rows *sql.Rows
 	if executeWithoutValue {
-		query = "SELECT * FROM SMS.SMS ORDER BY ID DESC FETCH FIRST 20 ROWS ONLY"
+		query = "SELECT SMS_ID, SMS_TYPE, RECEIVER_ADDRESS, BODY, SENT_DATE, SMS_STATUS FROM SMS.SMS ORDER BY SMS_ID DESC FETCH FIRST 20 ROWS ONLY"
 		rows, err = db.Query(query)
 	} else {
-		query = "SELECT * FROM SMS.SMS WHERE MOBILE = :1"
+		query = "SELECT SMS_ID, SMS_TYPE, RECEIVER_ADDRESS, BODY, SENT_DATE, SMS_STATUS FROM SMS.SMS WHERE MOBILE = :1 ORDER BY SMS_ID DESC"
 		rows, err = db.Query(query, value)
 	}
 
@@ -294,12 +294,15 @@ func fetchResultsHandler(w http.ResponseWriter, r *http.Request) {
 		Column1 string
 		Column2 string
 		Column3 string
+		Column4 string
+		Column5 string
+		Column6 string
 	}
 
 	var results []Result
 	for rows.Next() {
 		var res Result
-		if err := rows.Scan(&res.Column1, &res.Column2, &res.Column3); err != nil {
+		if err := rows.Scan(&res.Column1, &res.Column2, &res.Column3, &res.Column4, &res.Column5, &res.Column6); err != nil {
 			log.Println("Row scan error:", err)
 			continue
 		}
@@ -372,15 +375,21 @@ func fetchResultsHandler(w http.ResponseWriter, r *http.Request) {
         <h1>Results</h1>
         <table>
             <tr>
-                <th>Column1</th>
-                <th>Column2</th>
-                <th>Column3</th>
+                <th>SMS_ID</th>
+                <th>SMS_TYPE</th>
+                <th>RECEIVER_ADDRESS</th>
+                <th>BODY</th>
+                <th>SENT_DATE</th>
+                <th>SMS_STATUS</th>
             </tr>
             {{range .}}
             <tr>
                 <td>{{.Column1}}</td>
                 <td>{{.Column2}}</td>
                 <td>{{.Column3}}</td>
+                <td>{{.Column4}}</td>
+                <td>{{.Column5}}</td>
+                <td>{{.Column6}}</td>
             </tr>
             {{end}}
         </table>

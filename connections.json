@@ -1,0 +1,5 @@
+{
+  "MyFawry GW": "oracle://SMS2:SMS2@172.17.0.2:1521/FREEPDB1",
+  "MyFawry MCC": "oracle://SMS:SMS@172.17.0.2:1521/FREEPDB1",
+  "test": "test"
+}

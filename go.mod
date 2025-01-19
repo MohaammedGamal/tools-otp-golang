@@ -1,4 +1,4 @@
-module tools-fetch-otp
+module tools-otp-golang
 
 go 1.23.2
 
